@@ -104,7 +104,11 @@ print(geodata.head())
 
 # YOUR CODE HERE 9
 # Read population grid data for 2018 into a variable `pop`. 
-
+pop = gpd.read_file(r"data/500m_mesh_suikei_2018_shape_13/500m_mesh_2018_13.shp")
+pop=pop[["PTN_2020","geometry"]]
+geodata=geodata.to_crs(pop.crs)
+print(pop.crs)
+print(geodata.crs)
 #TEST CODE
 # Check your input data
 print("Number of rows:", len(pop))
@@ -116,10 +120,15 @@ print(pop.head(3))
 
 # Create a spatial join between grid layer and buffer layer. 
 # YOUR CDOE HERE 10 for spatial join
-
+join = gpd.sjoin(geodata, pop, how="inner", op="intersects")
+Tokyu=join.loc[join["name"]=="Tokyu Departmrnt Store"]
+Seibu=join.loc[join["name"]=="Seibu Shibuya Store"]
+National=join.loc[join["name"]=="National Azabu"]
 
 # YOUR CODE HERE 11 to report how many people live within 1.5 km distance from each shopping center
-
+sum_Tokyu_people=round(Tokyu["PTN_2020"].sum())
+sum_Seibu_people=round(Seibu["PTN_2020"].sum())
+sum_National_people=round(National["PTN_2020"].sum())
 # **Reflections:**
 #     
 # - How challenging did you find problems 1-3 (on scale to 1-5), and why?
