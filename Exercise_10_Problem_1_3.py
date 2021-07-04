@@ -12,7 +12,8 @@ import pandas as pd
 # Read the data (replace "None" with your own code)
 data = None
 # YOUR CODE HERE 1 to read the data
-
+data = pd.read_table("shopping_centers.txt", sep = ";", header = None)
+data.columns = ["id", "name", "addr"]
 #TEST COEE
 # Check your input data
 print(data)
@@ -25,7 +26,7 @@ from geopandas.tools import geocode
 
 # Geocode addresses using Nominatim. Remember to provide a custom "application name" in the user_agent parameter!
 #YOUR CODE HERE 2 for geocoding
-
+geo = geocode(data['addr'], provider = 'nominatim', user_agent = 'application name')
 #TEST CODE
 # Check the geocoded output
 print(geo)
